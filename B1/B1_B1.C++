@@ -21,20 +21,6 @@ bool check_phone_number(const std::string &phone_number)
 
 int calculate_time_call(const string from_time, const string to_time)
 {
-	// int from_hour, from_minute, from_second, to_hour, to_minute, to_second;
-	// from_hour = stoi(from_time.substr(0, 2));
-	// from_minute = stoi(from_time.substr(3, 2));
-	// from_second = stoi(from_time.substr(6, 2));
-
-	// to_hour = stoi(to_time.substr(0, 2));
-	// to_minute = stoi(to_time.substr(3, 2));
-	// to_second = stoi(to_time.substr(6, 2));
-
-	// if(from_hour == to_hour){
-	// 	return (to_minute - from_minute) * 60 + (to_second - from_second);
-	// }
-	// else
-	// 	return (to_hour - from_hour) * 3600 + (to_minute - from_minute) * 60 + (to_second - from_second);
 
 	int start_time = ((from_time[0] - '0') * 10 + (from_time[1] - '0')) * 3600 + ((from_time[3] - '0') * 10 + (from_time[4] - '0')) * 60 + (from_time[6] - '0') * 10 + (from_time[7] - '0');
 	int end_time = ((to_time[0] - '0') * 10 + (to_time[1] - '0')) * 3600 + ((to_time[3] - '0') * 10 + (to_time[4] - '0')) * 60 + (to_time[6] - '0') * 10 + (to_time[7] - '0');
@@ -70,13 +56,18 @@ int main()
 	{
 		string query;
 		cin >> query;
-
 		if (query == "#")
 			break;
 
-		else if (query == "?check_phone_number")
+		if (query == "?check_phone_number")
 		{
 			cout << valid_phone_number << endl;
+		}
+		else if (query == "?number_calls_from")
+		{
+			string from_number;
+			cin >> from_number;
+			cout << number_calls_from[from_number] << endl;
 		}
 
 		else if (query == "?number_total_calls")

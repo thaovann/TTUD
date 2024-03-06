@@ -1,102 +1,64 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
-vector<vector<int>> A;  // lưu bản đồ của mê cung
-map<pair<int, int>, int> M;  // lưu thứ tự duyệt đến theo chiều rộng
-queue<pair<int, int>> Q;    // lưu danh sách các tọa độ của vị trí chuẩn bị duyệt
-int step; 
-int n, m;
+const int MAX_N = 1000;
+const int MAX_M = 1000;
+const int dx[] = {0, 0, -1, 1};
+const int dy[] = {-1, 1, 0, 0};
 
-bool is_valid(int i, int j)
+struct Point
 {
-	return i >= 0 && j >= 0 && i < n && j < m;
-}
-
-bool BFS(int i, int j)
-{
-	if (!is_valid(i, j))
-	{
-		step = -1;
-		return false;
-	}
-
-	pair<int, int> p;
-	if (is_valid(i - 1, j) && A[i - 1][j] == 0 && M.find({i - 1, j}) == M.end())
-	{
-		p.first = i - 1;
-		p.second = j;
-		Q.push(p);
-		M[{i - 1, j}] = M[{i, j}] + 1;
-		if (i - 1 == 0)
-			return false;
-	}
-
-	if (is_valid(i + 1, j) && A[i + 1][j] == 0 && M.find({i + 1, j}) == M.end())
-	{
-		p.first = i + 1;
-		p.second = j;
-		Q.push(p);
-		M[{i + 1, j}] = M[{i, j}] + 1;
-		if (i + 1 == n - 1)
-			return false;
-	}
-
-	if (is_valid(i, j - 1) && A[i][j - 1] == 0 && M.find({i, j - 1}) == M.end())
-	{
-		p.first = i;
-		p.second = j - 1;
-		Q.push(p);
-		M[{i, j - 1}] = M[{i, j}] + 1;
-		if (j - 1 == 0)
-			return false;
-	}
-
-	if (is_valid(i, j + 1) && A[i][j + 1] == 0 && M.find({i, j + 1}) == M.end())
-	{
-		p.first = i;
-		p.second = j + 1;
-		Q.push(p);
-		M[{i, j + 1}] = M[{i, j}] + 1;
-		if (j + 1 == m - 1)
-			return false;
-	}
-
-	return true;
-}
+	int x, y;
+	
+	int steps;
+};
 
 int main()
 {
-	int r, c;
-
-	//input dữ liệu
+	int n, m, r, c;
 	cin >> n >> m >> r >> c;
 
-	A.resize(n, vector<int>(m));
+	vector<vector<int>> maze(n, vector<int>(m));
+	vector<vector<bool>> visited(n, vector<bool>(m, false));
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; ++i)
 	{
-		for (int j = 0; j < m; j++)
+		for (int j = 0; j < m; ++j)
 		{
-			cin >> A[i][j];
+			cin >> maze[i][j];
 		}
 	}
 
-	M[{r-1, c-1}] = 1;
-	Q.push({r-1,c-1});
+	queue<Point> q;
+	q.push({r - 1, c - 1, 0});
+	visited[r - 1][c - 1] = true;
 
-	while (!Q.empty())
+	while (!q.empty())
 	{
-		pair<int, int> current = Q.front();
-		Q.pop();
-		int i = current.first;
-		int j = current.second;
-		if (!BFS(i, j))
+		Point current = q.front();
+		q.pop();
+
+		if (current.x == 0 || current.x == n - 1 || current.y == 0 || current.y == m - 1)
 		{
-			cout << M[{i, j}] << endl;
+			cout << current.steps + 1 << endl;
 			return 0;
 		}
+
+		for (int i = 0; i < 4; ++i)
+		{
+			int next_x = current.x + dx[i];
+			int next_y = current.y + dy[i];
+
+			if (next_x >= 0 && next_x < n && next_y >= 0 && next_y < m && maze[next_x][next_y] == 0 && !visited[next_x][next_y])
+			{
+				q.push({next_x, next_y, current.steps + 1});
+				visited[next_x][next_y] = true;
+			}
+		}
 	}
 
-	cout << -1 << endl;
+	cout << -1 << endl; // No exit found
 	return 0;
 }

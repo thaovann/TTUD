@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/admin/OneDrive - Hanoi University of Science and Technology/Desktop/VANN/2023-2/TTUD/B1",
-      "program": "c:/Users/admin/OneDrive - Hanoi University of Science and Technology/Desktop/VANN/2023-2/TTUD/B1/build/Debug/outDebug",
+      "cwd": "c:/Users/admin/OneDrive - Hanoi University of Science and Technology/Desktop/VANN/2023-2/TTUD/B1/B1",
+      "program": "c:/Users/admin/OneDrive - Hanoi University of Science and Technology/Desktop/VANN/2023-2/TTUD/B1/B1/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
